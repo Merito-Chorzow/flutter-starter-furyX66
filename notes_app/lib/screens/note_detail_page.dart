@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:clipboard/clipboard.dart';
 import '../models/note.dart';
 import '../providers/app_state.dart';
 
@@ -28,6 +29,110 @@ class NoteDetailPageState extends State<NoteDetailPage>{
     titleController.dispose();
     contentController.dispose();
     super.dispose();
+  }
+
+  void copyNote() async {
+    try {
+      await FlutterClipboard.copy(contentController.text);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Content copied!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            bottom: 100,
+            left: 16,
+            right: 16
+          ),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            bottom: 100,
+            left: 16,
+            right: 16
+          ),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
+    }
+  }
+
+  void copyTitle() async {
+    try {
+      await FlutterClipboard.copy(titleController.text);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Title copied!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            bottom: 100,
+            left: 16,
+            right: 16
+          ),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            bottom: 100,
+            left: 16,
+            right: 16
+          ),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
+    }
+  }
+
+  void pasteFromClipboard() async {
+    try {
+      dynamic data = await FlutterClipboard.paste();
+      if (data != null) {
+        setState(() {
+          contentController.text += data.toString();
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Pasted from clipboard!'),
+            backgroundColor: Colors.blue,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: 100,
+              left: 16,
+              right: 16
+            ),
+            duration: Duration(milliseconds: 500),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            bottom: 100,
+            left: 16,
+            right: 16
+          ),
+          duration: Duration(milliseconds: 500),
+        ),
+      );
+    }
   }
 
   @override
@@ -63,6 +168,43 @@ class NoteDetailPageState extends State<NoteDetailPage>{
               ),
             ),
             SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: copyTitle,
+                    icon: Icon(Icons.copy),
+                    label: Text('Copy Title'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: copyNote,
+                    icon: Icon(Icons.copy),
+                    label: Text('Copy Note'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: pasteFromClipboard,
+                    icon: Icon(Icons.paste),
+                    label: Text('Paste'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

@@ -1,9 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 import 'note_detail_page.dart';
 
 class MyHomePage extends StatelessWidget {
+  void copyNote(BuildContext context, String title, String content) async {
+    final noteText = 'Title: $title\n\nContent: $content';
+    
+    try {
+      await FlutterClipboard.copy(noteText);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Note copied to clipboard!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
