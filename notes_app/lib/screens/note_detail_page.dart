@@ -207,7 +207,7 @@ class NoteDetailPageState extends State<NoteDetailPage>{
                 ),
               ],
             ),
-            Divider(height: 16),
+            SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
