@@ -4,7 +4,17 @@ import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 import 'note_detail_page.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  MyHomePageState createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<MyAppState>(context, listen: false).fetchWeather();
+  }
   void copyNote(BuildContext context, String title, String content) async {
     final noteText = 'Title: $title\n\nContent: $content';
     
@@ -33,6 +43,17 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('My notes'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Center(
+              child: Text(
+                appState.weatherInfo ?? 'Loading weather...',
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ],
       ),
       body: appState.notes.isEmpty
           ? Center(child: Text('You have no notes'))

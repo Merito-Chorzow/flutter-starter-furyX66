@@ -167,10 +167,11 @@ class NoteDetailPageState extends State<NoteDetailPage>{
                 textAlignVertical: TextAlignVertical.top,
               ),
             ),
-            SizedBox(height: 16),
-            Row(
+            Column(
               children: [
-                Expanded(
+                SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: copyTitle,
                     icon: Icon(Icons.copy),
@@ -180,8 +181,9 @@ class NoteDetailPageState extends State<NoteDetailPage>{
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
-                Expanded(
+                SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: copyNote,
                     icon: Icon(Icons.copy),
@@ -191,8 +193,9 @@ class NoteDetailPageState extends State<NoteDetailPage>{
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
-                Expanded(
+                SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: pasteFromClipboard,
                     icon: Icon(Icons.paste),
@@ -204,7 +207,7 @@ class NoteDetailPageState extends State<NoteDetailPage>{
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            Divider(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
